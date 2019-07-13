@@ -1,0 +1,88 @@
+*{
+	margin: 0;
+	padding: 0;
+}
+body{
+	
+	text-align: center;
+	overflow-x: hidden;
+}
+.button{
+	width: 60px;
+	height: 60px;
+	font-size: 25px;
+	margin: 1px;
+	cursor: pointer;
+	background-color: transparent;
+	color: white;
+}
+.textview{
+	width: 230px;
+	margin: 5px;
+	font-size: 25px;
+	padding: 7px;
+}
+.button1{
+	width: 120px;
+	height: 60px;
+	font-size: 25px;
+	margin: 1px;
+	cursor: pointer;
+	background-color: transparent;
+	color: red;
+}
+.button2{
+	width: 60px;
+	height: 120px;
+	font-size: 25px;
+	margin: 1px;
+	background-color: transparent;
+	cursor: pointer;
+	color: white;
+}
+form{
+	outline: 3px solid black;
+	padding: 5px;
+	position: absolute;
+}
+@media screen and (max-width: 768px){
+	*{
+		margin: 0;
+		padding: 0;
+	}
+	form{
+		margin-left: 35%;
+		margin-top: 10%;
+		height: auto;
+		width: auto;
+	}
+}
+canvas{
+	width: 100%;
+    position:absolute;top:0;left:-0%;
+    background-image: linear-gradient(bottom, rgb(105,173,212) 0%, rgb(23,82,145) 84%);
+    background-image: -o-linear-gradient(bottom, rgb(105,173,212) 0%, rgb(23,82,145) 84%);
+    background-image: -moz-linear-gradient(bottom, rgb(105,173,212) 0%, rgb(23,82,145) 84%);
+    background-image: -webkit-linear-gradient(bottom, rgb(105,173,212) 0%, rgb(23,82,145) 84%);
+    background-image: -ms-linear-gradient(bottom, rgb(105,173,212) 0%, rgb(23,82,145) 84%);
+    
+    background-image: -webkit-gradient(
+        linear,
+        left bottom,
+        left top,
+        color-stop(0, rgb(105,173,212)),
+        color-stop(0.84, rgb(23,82,145))
+    );
+}
+@media screen and (max-width: 425px){
+	*{
+		margin: 0;
+		padding: 0;
+	}
+	form{
+		margin-left: 20%;
+		margin-top: 10%;
+		height: auto;
+		width: auto;
+	}
+}

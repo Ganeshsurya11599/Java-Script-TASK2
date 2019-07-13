@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html>
+<head>
+	 <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+	<title>Simple Calculator</title>
+	<link rel="stylesheet" type="text/css" href="css/style.css">
+</head>
+<body>
+	<canvas id="canvas"></canvas>
+	<br>
+	<br>
+	<div class="row">
+		<div class="col-lg-12  offset-lg-5">
+		<form name="form">
+			<input class="textview" name="textview">
+		<table>
+			<tr>
+				<td><input class="button" type="button" value="C" onclick="c()"></td>
+				<td><input class="button" type="button" value="<" onclick="back()"></td>
+				<td><input class="button" type="button" value="/" onclick="insert('/')"></td>
+				<td><input class="button" type="button" value="*" onclick="insert('*')"></td>
+			</tr>
+			<tr>
+				<td><input class="button" type="button" value="7" onclick="insert(7)"></td>
+				<td><input class="button" type="button" value="8" onclick="insert(8)"></td>
+				<td><input class="button" type="button" value="9" onclick="insert(9)"></td>
+				<td><input class="button" type="button" value="-" onclick="insert('-')"></td>
+			</tr>
+			<tr>
+				<td><input class="button" type="button" value="4" onclick="insert(4)"></td>
+				<td><input class="button" type="button" value="5" onclick="insert(5)"></td>
+				<td><input class="button" type="button" value="6" onclick="insert(6)"></td>
+				<td><input class="button" type="button" value="+" onclick="insert('+')"></td>
+			</tr>
+			<tr>
+				<td><input class="button" type="button" value="1" onclick="insert(1)"></td>
+				<td><input class="button" type="button" value="2" onclick="insert(2)"></td>
+				<td><input class="button" type="button" value="3" onclick="insert(3)"></td>
+				<td rowspan="2"><input class="button2" type="button" value="=" onclick="equal()"></td>
+			</tr>
+			<tr>
+				<td colspan="2"><input class="button1 text-white" type="button" value="0" onclick="insert(0)"></td>
+				<td><input class="button text-white" type="button" value="." onclick="insert('.')"></td>
+			</tr>
+		</table>
+	</form>
+	</div>		
+		</div>
+	<script>
+		function insert(num){
+			document.form.textview.value=document.form.textview.value+num
+		}
+
+		 function equal(){
+		 	var exp=document.form.textview.value;
+		 	if(exp){
+		 	document.form.textview.value=eval(exp)	
+		 	}
+		 }
+
+		 function c(){
+		 	document.form.textview.value="";
+		 }
+
+		 function back(){
+		 	var exp=document.form.textview.value;
+		 	if(exp){
+		 	document.form.textview.value=exp.substring(0,exp.length-1)	
+		 	}
+		 }
+
+	(function() {
+    var requestAnimationFrame = window.requestAnimationFrame || window.mozRequestAnimationFrame || window.webkitRequestAnimationFrame || window.msRequestAnimationFrame ||
+    function(callback) {
+        window.setTimeout(callback, 1000 / 60);
+    };
+    window.requestAnimationFrame = requestAnimationFrame;
+})();
+
+
+var flakes = [],
+    canvas = document.getElementById("canvas"),
+    ctx = canvas.getContext("2d"),
+    flakeCount = 400,
+    mX = -100,
+    mY = -100
+
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+
+function snow() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+    for (var i = 0; i < flakeCount; i++) {
+        var flake = flakes[i],
+            x = mX,
+            y = mY,
+            minDist = 150,
+            x2 = flake.x,
+            y2 = flake.y;
+
+        var dist = Math.sqrt((x2 - x) * (x2 - x) + (y2 - y) * (y2 - y)),
+            dx = x2 - x,
+            dy = y2 - y;
+
+        if (dist < minDist) {
+            var force = minDist / (dist * dist),
+                xcomp = (x - x2) / dist,
+                ycomp = (y - y2) / dist,
+                deltaV = force / 2;
+
+            flake.velX -= deltaV * xcomp;
+            flake.velY -= deltaV * ycomp;
+
+        } else {
+            flake.velX *= .98;
+            if (flake.velY <= flake.speed) {
+                flake.velY = flake.speed
+            }
+            flake.velX += Math.cos(flake.step += .05) * flake.stepSize;
+        }
+
+        ctx.fillStyle = "rgba(255,255,255," + flake.opacity + ")";
+        flake.y += flake.velY;
+        flake.x += flake.velX;
+            
+        if (flake.y >= canvas.height || flake.y <= 0) {
+            reset(flake);
+        }
+
+
+        if (flake.x >= canvas.width || flake.x <= 0) {
+            reset(flake);
+        }
+
+        ctx.beginPath();
+        ctx.arc(flake.x, flake.y, flake.size, 0, Math.PI * 2);
+        ctx.fill();
+    }
+    requestAnimationFrame(snow);
+};
+
+function reset(flake) {
+    flake.x = Math.floor(Math.random() * canvas.width);
+    flake.y = 0;
+    flake.size = (Math.random() * 3) + 2;
+    flake.speed = (Math.random() * 1) + 0.5;
+    flake.velY = flake.speed;
+    flake.velX = 0;
+    flake.opacity = (Math.random() * 0.5) + 0.3;
+}
+
+function init() {
+    for (var i = 0; i < flakeCount; i++) {
+        var x = Math.floor(Math.random() * canvas.width),
+            y = Math.floor(Math.random() * canvas.height),
+            size = (Math.random() * 3) + 2,
+            speed = (Math.random() * 1) + 0.5,
+            opacity = (Math.random() * 0.5) + 0.3;
+
+        flakes.push({
+            speed: speed,
+            velY: speed,
+            velX: 0,
+            x: x,
+            y: y,
+            size: size,
+            stepSize: (Math.random()) / 30,
+            step: 0,
+            opacity: opacity
+        });
+    }
+
+    snow();
+};
+
+canvas.addEventListener("mousemove", function(e) {
+    mX = e.clientX,
+    mY = e.clientY
+});
+
+window.addEventListener("resize",function(){
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+})
+
+init();
+	</script>
+</body>
+</html>
